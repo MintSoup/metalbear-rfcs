@@ -100,10 +100,8 @@ Specifies the target of the session. Has 2 fields: `path` and `namespace`, which
 Specifies the environment variable configuration for the given service. Maps directly (1:1) to `feature.env`
 
 ##### `services.*.mode`
-Specifies the incoming network mode of the service. Has 3 available options:
-- `mirror`: Incoming traffic is mirrored
-- `steal`: Incoming traffic is stolen
-- `replace`: Incoming traffic is stolen and the target is copied and scaled down.
+So far, only `split` is supported. The incoming mode is set to `steal` with http filter.
+User-provided filter is used if provided, otherwise defaulting to `baggage: .*mirrord-session={key}.*`.
 
 ##### `services.*.http_filter`
 Specifies the HTTP filtering configuration for the given service. Maps directly to `feature.network.incoming.http_filter`
@@ -112,7 +110,7 @@ Specifies the HTTP filtering configuration for the given service. Maps directly 
 List of ports that should be ignored in incoming traffic. Maps directly to `feature.network.incoming.ignore_ports`
 
 ##### `services.*.messages` 
-Specifies queue splitting configuration (specifics undecided as of now).
+Specifies queue splitting configuration (Not supported as of now).
 
 ##### `services.*.run` 
 Specifies the command that should be run with mirrord. Has 2 fields:
@@ -150,7 +148,7 @@ While not directly related to mirrord, the shape of the feature described in thi
 ## Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
-- Queue splitting: how should the configuration be done in `mirrord-up.yaml`? Ideally we want something that's simpler than a 1:1 mapping with `feature.split_queues` in `mirrord.json`, but as of now it's unclear how that could/should be done.
+- Queue splitting: how should the configuration be done in `mirrord-up.yaml`? Ideally we want something that's simpler than a 1:1 mapping with `feature.split_queues` in `mirrord.json`, but as of now it's unclear how that could/should be done. *There will be no queue splitting support in the MVP*.
 
 - Interaction with the services: right now we just print stdout and stderr to the CLI (prefixed with the service ids), but this is a little ugly and does not allow interacting with stdin.
 
