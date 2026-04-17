@@ -29,7 +29,7 @@ As such, certain configuration options from `mirrord.json` may not be exposed fr
 Start by creating a `mirrord-up.yaml` file:
 
 ```yaml
-defaults:
+common:
   accept_invalid_certificates: true
   operator: true
   telemetry: true
@@ -84,7 +84,7 @@ Then, run `mirrord up`. For each entry in `services`, a mirrord config will be g
 
 ### Supported fields
 
-#### `defaults`
+#### `common`
 Common configuration options, applied to all defined services. Currently 3 options are supported:
 - `accept_invalid_certificates`
 - `operator`
