@@ -43,7 +43,7 @@ services:
         NODE_ENV: "development"
         AUTH_SERVICE_URL: "http://localhost:8080"
         TOKEN_EXPIRY: "3600"
-    mode: steal
+    mode: split
     http_filter:
       header_filter: "x-session: session2"
 
@@ -59,21 +59,14 @@ services:
         APP_NAME: "dashboard-app-123"
         NODE_ENV: "development"
 
-    mode: steal
+    mode: split
       http_filter:
         header_filter: "x-session: session1"
       messages: # optional, for sqs/kafka message filters
         type: kafka # or sqs
         filter:
             - "baggage": ".*mirrord-session=alice.*"
-      mode: steal
-        # Available modes: 
-        # 1. mirror (default mode)
-        #    + optional http_filter (without filter, everything is mirrored)
-        # 2. replace mode => copy target + scale down
-        # 3. steal
-        #    + optional http_filter. Without http_filter, steal is 
-        #    automatically filtered by baggage and key
+      mode: split
     ignore_ports: [9091, 15090]
     run: 
       type: container 
