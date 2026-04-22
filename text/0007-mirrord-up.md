@@ -15,7 +15,7 @@
 ## Motivation
 [motivation]: #motivation
 
-Some of our customers (e.g. Monday) use bespoke mirrord cli wrappers and `mirrord.json` generators to achieve similar functionality. The goal of `mirrord up` is to add first-class support for this use case.
+Some of our customers  use bespoke mirrord cli wrappers and `mirrord.json` generators to achieve similar functionality. The goal of `mirrord up` is to add first-class support for this use case.
 
 Since `mirrord.json` supports a *lot* of configuration options, way more than is needed for the majority of use cases, _the design philosophy of this feature should be configuration of convention._ As Aviram said,
 
@@ -46,7 +46,6 @@ services:
     mode: split
     http_filter:
       header_filter: "x-session: session2"
-
     ignore_ports: [9090, 9091, 15090]
     run: 
       command: ["node", "app.js"]
@@ -58,7 +57,6 @@ services:
       override:
         APP_NAME: "dashboard-app-123"
         NODE_ENV: "development"
-
     mode: split
       http_filter:
         header_filter: "x-session: session1"
@@ -133,8 +131,8 @@ Once the configs have been generated, a mirrord process is started for each serv
 ## Prior art
 [prior-art]: #prior-art
 
-### Monday
-I'm not too familiar with the specifics here but Monday has an ad-hoc solution for solving this same problem. It's worth looking deeper into it to ensure `mirrord up` covers all those use cases.
+### [customer]
+I'm not too familiar with the specifics here but [customer] has an ad-hoc solution for solving this same problem. It's worth looking deeper into it to ensure `mirrord up` covers all those use cases.
 
 ### Docker Compose
 While not directly related to mirrord, the shape of the feature described in this RFC is very similar to that of Docker Compose. We may use it as a reference with regards to UX issues.
@@ -161,6 +159,9 @@ This command should scan the project directory, look for common manifests, try t
 - `docker-compose.yaml`
 
 This can also run automatically whenever no `mirrord-up.yaml` is found.
+
+### Task ordering (Alex)
+Add some way to definte startup order of the services, e.g. `depends_on`.
 
 
 
