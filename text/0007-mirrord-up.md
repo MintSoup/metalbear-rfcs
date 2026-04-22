@@ -73,6 +73,14 @@ services:
 
 Then, run `mirrord up`. For each entry in `services`, a mirrord config will be generated and a corresponding session will be spun up. The sessions all run in the foregound, in parallel, and are stopped whenever any one of them exits.
 
+
+## Reference-level explanation (MVP)
+[reference-level-explanation]: #reference-level-explanation
+
+`mirrord up` works by parsing `mirrord-up.yaml` and generating a mirrord config for each of the defined services. Notably, no actual `mirrord.json` files are generated, instead a `LayerConfig` is created for each service and serialized into an environment variable, much like how the CLI passes the resolved config to the intproxy and layer.
+
+Once the configs have been generated, a mirrord process is started for each service. The CLI captures logs from all of them and prints them to the console. All child processes are killed when one of them exits or the parent CLI process receives `SIGINT`.
+
 ### Supported fields
 
 #### `common`
@@ -118,14 +126,6 @@ Allows specifying a different config file, e.g. `mirrord up -f mirrord-up2.yaml`
 
 #### `--key`
 Allows specifying a custom session key. When not supplied, the OS username is used.
-
-
-## Reference-level explanation (MVP)
-[reference-level-explanation]: #reference-level-explanation
-
-`mirrord up` works by parsing `mirrord-up.yaml` and generating a mirrord config for each of the defined services. Notably, no actual `mirrord.json` files are generated, instead a `LayerConfig` is created for each service and serialized into an environment variable, much like how the CLI passes the resolved config to the intproxy and layer.
-
-Once the configs have been generated, a mirrord process is started for each service. The CLI captures logs from all of them and prints them to the console. All child processes are killed when one of them exits or the parent CLI process receives `SIGINT`.
 
 
 ## Prior art
